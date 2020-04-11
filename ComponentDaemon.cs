@@ -24,54 +24,33 @@ namespace IngameScript
         // Needed amounts of components
         Dictionary<string, int> minComponents = new Dictionary<string, int>()
         {
-            { "BulletproofGlass", 0 },
-            { "Canvas", 0 },
-            { "Computer", 0 },
-            { "Construction", 0 },
-            { "Detector", 0 },
-            { "Display", 0 },
-            { "Explosives", 0 },
-            { "Girder", 0 },
-            { "GravityGenerator", 0 },
-            { "InteriorPlate", 0 },
-            { "LargeTube", 0 },
-            { "Medical", 0 },
-            { "MetalGrid", 0 },
-            { "Motor", 0 },
-            { "PowerCell", 0 },
-            { "RadioCommunication", 0 },
-            { "Reactor", 0 },
-            { "SmallTube", 0 },
-            { "SolarCell", 0 },
-            { "SteelPlate", 0 },
-            { "Superconductor", 0 },
-            { "Thrust", 0 },
-            { "ZoneChip", 0 }
+            { "Computer", 1000 },
+            { "Construction", 1000 },
+            { "Display", 1000 },
+            { "InteriorPlate", 10000 },
+            { "LargeTube", 1000 },
+            { "MetalGrid", 1000 },
+            { "Motor", 1000 },
+            { "SmallTube", 1000 },
+            { "SteelPlate", 10000 }
         };
+
+        // Name of assembler to queue
+        string assemblerName = "Assembler Master";
 
         // List to clarify what needs the "Component" tag during the assembler conditional
         List<string> assemblerComponents = new List<string>
         {
             "Computer",
             "Construction",
-            "Detector",
-            "Explosives",
-            "Girder",
-            "GravityGenerator",
-            "Medical",
-            "Motor",
-            "RadioCommunication",
-            "Reactor",
-            "Thrust"
+            "Motor"
         };
 
         // Space Engineers interfaces
         IMyAssembler assembler;
         List<IMyTerminalBlock> blocksWithInventory;
 
-        // Script vars
         int counter = 0;
-        String[] args;
 
         // Run on initialization
         public Program()
@@ -82,18 +61,8 @@ namespace IngameScript
 
         public void Main(string argument, UpdateType updateSource)
         {
-            // Splits argument string into list
-            args = argument.Split(';');
-
-            // Grabs assembler and light
-            assembler = GridTerminalSystem.GetBlockWithName(args[0]) as IMyAssembler;
-
-            // If assembler is null, stop
-            if (assembler == null)
-            {
-                Echo("An argument was incorrect or missing. Remember, block names are case sensitive.");
-                return;
-            }
+            // Gets assembler
+            assembler = GridTerminalSystem.GetBlockWithName(assemblerName) as IMyAssembler;
 
             // Gets every block in same grid with an inventory and stores it in blocksWithInventory
             blocksWithInventory = new List<IMyTerminalBlock>();
